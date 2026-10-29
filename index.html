@@ -4,11 +4,17 @@
 <link rel="stylesheet" href="style.css"></head><body>
 <nav class="nav"><div class="wrap"><a class="logo" href="#inicio" aria-label="Inicio"><img src="logo.jpg" alt="Centro de Atención Integral Autólogo"></a>
 <button id="burger" aria-label="Abrir menú">Menú</button>
-<div class="menu" id="menu"><a href="#servicios">Servicios</a><a href="#reserva">Reservar</a><a href="#contacto">Contacto</a></div></div></nav>
+<div class="menu" id="menu"><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#reserva">Reservar</a><a href="#contacto">Contacto</a></div></div></nav>
 
 <header class="hero" id="inicio"><div class="wrap">
 <div><h1 id="h-lema"></h1><p>Tratamientos faciales, corporales y de bienestar en un mismo lugar. Reserve su cita en línea y elija el horario que le convenga.</p><a class="pri" href="#reserva">Reservar cita</a></div>
 <img class="hero-logo" src="logo.jpg" alt="Logo del Centro de Atención Integral Autólogo"></div></header>
+
+<section class="strip"><div class="wrap">
+<div><h3>Tratamientos autólogos</h3><p>Terapias que aprovechan los recursos de su propio cuerpo.</p></div>
+<div><h3>Valoración previa</h3><p>Cada plan empieza con una evaluación de su caso.</p></div>
+<div><h3>Atención integral</h3><p>Rostro, cuerpo, relajación y rehabilitación en un mismo centro.</p></div>
+<div><h3>Reserva en línea</h3><p>Elija su servicio, fecha y hora desde el teléfono.</p></div></div></section>
 
 <section class="blk" id="servicios"><div class="wrap"><h2>Servicios</h2><p class="sub">Elija una categoría y reserve directamente el tratamiento.</p>
 <div class="tabs" id="tabs"></div><div class="cards" id="cards"></div></div></section>
@@ -23,8 +29,17 @@
 <textarea id="notas" rows="2" placeholder="Notas (opcional)"></textarea>
 <button class="pri" id="enviar">Solicitar cita</button><div id="msg"></div></div></div></section>
 
+<section class="blk" id="proceso"><div class="wrap"><h2>Cómo trabajamos</h2><p class="sub">Un proceso claro, de la primera consulta al seguimiento.</p>
+<div class="steps4"><div><span>1</span><h3>Reserva</h3><p>Elija el servicio y el horario en esta página.</p></div>
+<div><span>2</span><h3>Valoración</h3><p>Evaluamos su caso y definimos el tratamiento adecuado.</p></div>
+<div><span>3</span><h3>Sesión</h3><p>Realizamos el tratamiento con atención personalizada.</p></div>
+<div><span>4</span><h3>Seguimiento</h3><p>Le indicamos cuidados y próximas sesiones.</p></div></div></div></section>
+
+<section class="blk"><div class="wrap"><div class="cta"><h2>¿Tiene dudas sobre qué tratamiento elegir?</h2><p>Escríbanos y le orientamos antes de reservar.</p><a class="pri" id="cta" target="_blank" rel="noopener">Escribir por WhatsApp</a></div></div></section>
+
 <section class="blk" id="contacto"><div class="wrap"><h2>Contacto</h2><p class="sub"></p>
 <div class="contact" id="contact"></div></div></section>
+<a class="wa" id="wa" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">WhatsApp</a>
 <footer><div class="wrap" id="foot"></div></footer>
 
 <script type="module">
@@ -36,15 +51,16 @@ if(!demo){const a=await import("https://www.gstatic.com/firebasejs/10.12.2/fireb
 // ---- Textos del estudio ----
 document.title=ESTUDIO.nombre;$("h-lema").textContent=ESTUDIO.lema;
 $("foot").textContent="© "+new Date().getFullYear()+" "+ESTUDIO.nombre+". Los tratamientos se realizan previa valoración.";
-$("contact").innerHTML=`<div><b>WhatsApp</b><a href="https://wa.me/${tel58(ESTUDIO.whatsapp)}">${ESTUDIO.whatsapp}</a></div><div><b>Instagram</b>${ESTUDIO.instagram}</div><div><b>Dirección</b>${ESTUDIO.direccion}</div><div><b>Horario</b>${ESTUDIO.horarioTexto}</div>`;
+$("contact").innerHTML=`<div><b>WhatsApp</b><a href="https://wa.me/${tel58(ESTUDIO.whatsapp)}">${ESTUDIO.whatsapp}</a> · <a href="tel:+${tel58(ESTUDIO.whatsapp)}">Llamar</a></div>${ESTUDIO.instagram?`<div><b>Instagram</b>${ESTUDIO.instagram}</div>`:""}<div><b>Dirección</b>${ESTUDIO.direccion}</div><div><b>Horario</b>${ESTUDIO.horarioTexto}</div>`;
+$("wa").href=$("cta").href="https://wa.me/"+tel58(ESTUDIO.whatsapp)+"?text="+encodeURIComponent("Hola, quisiera información sobre sus tratamientos.");
 if(demo)$("demo").textContent="Modo demostración: las reservas no se guardan fuera de esta ventana.";
 $("burger").onclick=()=>$("menu").classList.toggle("open");$("menu").onclick=()=>$("menu").classList.remove("open");
 
 // ---- Servicios por categoría ----
-const precio=s=>s.precio||"Consultar";
+const precio=s=>s.precio||"Consultar",CI={"Rostro y piel":"img/rostro.svg","Cuerpo":"img/cuerpo.svg","Relax y bienestar":"img/relax.svg","Rehabilitación":"img/rehab.svg"};
 $("tabs").innerHTML=CATEGORIAS.map(c=>`<button data-c="${c}">${c}</button>`).join("");
 function cat(c){[...$("tabs").children].forEach(b=>b.classList.toggle("on",b.dataset.c===c));
- $("cards").innerHTML=Object.entries(S).filter(([,s])=>s.cat===c).map(([id,s])=>`<article class="card"><h3>${s.nombre}</h3><p>${s.desc}</p><div class="meta"><span>${s.min} min</span><span>${precio(s)}</span></div><button data-r="${id}">Reservar</button></article>`).join("")}
+ $("cards").innerHTML=Object.entries(S).filter(([,s])=>s.cat===c).map(([id,s])=>`<article class="card"><img src="${s.img||CI[s.cat]}" alt="${s.nombre}" loading="lazy"><h3>${s.nombre}</h3><p>${s.desc}</p><div class="meta"><span>${s.min} min</span><span>${precio(s)}</span></div><button data-r="${id}">Reservar</button></article>`).join("")}
 $("tabs").onclick=e=>{const b=e.target.closest("button");if(b)cat(b.dataset.c)};
 $("cards").onclick=e=>{const b=e.target.closest("button[data-r]");if(!b)return;$("srv").value=b.dataset.r;elegir();$("reserva").scrollIntoView()};
 cat(CATEGORIAS[0]);

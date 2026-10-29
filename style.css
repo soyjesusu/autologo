@@ -42,3 +42,21 @@ footer{padding:28px 0 40px;color:var(--mut);font-size:.85rem;border-top:1px soli
 .logo img{display:block;height:44px;width:auto}
 .hero .wrap{align-items:center}.hero-logo{width:100%;max-width:440px;height:auto;justify-self:center;border-radius:12px}
 .hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem)}
+.card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;margin-bottom:4px}
+
+.hero{background:radial-gradient(ellipse at 78% 45%,rgba(193,154,91,.2),transparent 62%);padding:72px 0 64px}
+.hero-logo{border-radius:0;max-width:480px;filter:drop-shadow(0 0 40px rgba(193,154,91,.25))}
+section.blk>.wrap>h2::after{content:"";display:block;width:56px;height:2px;background:var(--pine);margin-top:12px}
+.strip{border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--soft);padding:34px 0}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.strip h3{font-size:1.25rem;color:var(--pine);margin-bottom:6px}.strip p{margin:0;color:var(--mut);font-size:.92rem}
+.card{border-top:2px solid var(--pine)}.card:hover{border-color:var(--plum)}
+.card img{border:1px solid var(--bd)}
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8px}
+.steps4>div{border-left:1px solid var(--bd);padding:2px 0 2px 18px}
+.steps4 span{font:600 2.6rem/1 var(--serif);color:var(--pine)}.steps4 h3{font-size:1.25rem;margin:6px 0}.steps4 p{margin:0;color:var(--mut);font-size:.93rem}
+.cta{text-align:center;border:1px solid var(--pine);border-radius:18px;padding:44px 22px;background:radial-gradient(ellipse at 50% 0,rgba(193,154,91,.18),transparent 70%),var(--soft)}
+.cta h2{font-size:clamp(1.5rem,4vw,2.1rem)}.cta h2::after{margin:12px auto 0}.cta p{color:var(--mut);margin:12px 0 22px}
+.wa{position:fixed;right:16px;bottom:16px;z-index:6;background:var(--pine);color:#000;font-weight:600;text-decoration:none;padding:12px 20px;border-radius:99px;box-shadow:0 6px 22px rgba(0,0,0,.6)}
+@media(max-width:860px){.strip .wrap,.steps4{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.strip .wrap,.steps4{grid-template-columns:1fr}.hero{padding:40px 0}}
