@@ -29,6 +29,8 @@
 <textarea id="notas" rows="2" placeholder="Notas (opcional)"></textarea>
 <button class="pri" id="enviar">Solicitar cita</button><div id="msg"></div></div></div></section>
 
+<section class="blk" id="galeria" hidden><div class="wrap"><h2>Nuestro centro</h2><p class="sub">Conozca el espacio donde le atendemos.</p><div class="gal" id="gal"></div></div></section>
+
 <section class="blk" id="proceso"><div class="wrap"><h2>Cómo trabajamos</h2><p class="sub">Un proceso claro, de la primera consulta al seguimiento.</p>
 <div class="steps4"><div><span>1</span><h3>Reserva</h3><p>Elija el servicio y el horario en esta página.</p></div>
 <div><span>2</span><h3>Valoración</h3><p>Evaluamos su caso y definimos el tratamiento adecuado.</p></div>
@@ -43,16 +45,18 @@
 <footer><div class="wrap" id="foot"></div></footer>
 
 <script type="module">
-import {firebaseConfig,ESTUDIO,HORARIO,CATEGORIAS,SERVICIOS,ymd,tel58,bloques,inicios,toMin} from "./config.js";
+import {firebaseConfig,ESTUDIO,HORARIO,CATEGORIAS,SERVICIOS,ymd,tel58,bloques,inicios,toMin,HERO_IMG,GALERIA,CREDITOS} from "./config.js";
 const $=i=>document.getElementById(i),S=SERVICIOS,sel={},demo=!firebaseConfig.apiKey,mem=new Set();
 let db,fb;
 if(!demo){const a=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");fb=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");db=fb.getFirestore(a.initializeApp(firebaseConfig))}
 
 // ---- Textos del estudio ----
 document.title=ESTUDIO.nombre;$("h-lema").textContent=ESTUDIO.lema;
-$("foot").textContent="© "+new Date().getFullYear()+" "+ESTUDIO.nombre+". Los tratamientos se realizan previa valoración.";
+$("foot").textContent="© "+new Date().getFullYear()+" "+ESTUDIO.nombre+". Los tratamientos se realizan previa valoración."+(CREDITOS?" "+CREDITOS+".":"");
 $("contact").innerHTML=`<div><b>WhatsApp</b><a href="https://wa.me/${tel58(ESTUDIO.whatsapp)}">${ESTUDIO.whatsapp}</a> · <a href="tel:+${tel58(ESTUDIO.whatsapp)}">Llamar</a></div>${ESTUDIO.instagram?`<div><b>Instagram</b>${ESTUDIO.instagram}</div>`:""}<div><b>Dirección</b>${ESTUDIO.direccion}</div><div><b>Horario</b>${ESTUDIO.horarioTexto}</div>`;
 $("wa").href=$("cta").href="https://wa.me/"+tel58(ESTUDIO.whatsapp)+"?text="+encodeURIComponent("Hola, quisiera información sobre sus tratamientos.");
+if(GALERIA.length){$("galeria").hidden=false;$("gal").innerHTML=GALERIA.map(g=>`<img src="${g}" alt="Centro de Atención Integral Autólogo" loading="lazy">`).join("")}
+if(HERO_IMG)$("inicio").style.background=`linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.88)),url(${HERO_IMG}) center/cover`;
 if(demo)$("demo").textContent="Modo demostración: las reservas no se guardan fuera de esta ventana.";
 $("burger").onclick=()=>$("menu").classList.toggle("open");$("menu").onclick=()=>$("menu").classList.remove("open");
 
