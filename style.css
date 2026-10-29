@@ -1,0 +1,44 @@
+:root{--bg:#000;--card:#14110e;--tx:#ece6da;--mut:#a89f8f;--pine:#c19a5b;--sage:#8a6b3a;--plum:#e3c88f;--soft:#0d0b09;--bd:#2f271c;--ok:#4cc98a;--bad:#ff8a80;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;font:16px/1.6 var(--sans);background:var(--bg);color:var(--tx)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font:600 1.15rem var(--serif);color:var(--pine);text-decoration:none}
+.menu{display:flex;gap:22px}.menu a{color:var(--tx);text-decoration:none;font-size:.95rem}.menu a:hover{color:var(--plum)}
+#burger{display:none;background:none;border:1px solid var(--bd);border-radius:8px;padding:8px 12px}
+.hero{padding:64px 0 48px}.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:end}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);color:var(--pine);letter-spacing:-.5px}
+.hero p{max-width:46ch;color:var(--mut);font-size:1.1rem;margin:18px 0 26px}
+.idx{list-style:none;margin:0;padding:0;border-top:1px solid var(--bd)}
+.idx li{border-bottom:1px solid var(--bd)}.idx a{display:flex;justify-content:space-between;padding:14px 2px;color:var(--tx);text-decoration:none;font-family:var(--serif);font-size:1.2rem}
+.idx a:hover{color:var(--plum)}.idx small{font:.85rem var(--sans);color:var(--mut);align-self:center}
+section.blk{padding:48px 0}section.blk>.wrap>h2{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:8px}
+.sub{color:var(--mut);margin:0 0 24px}
+button,input,select,textarea{font:inherit;color:inherit;border:1px solid var(--bd);border-radius:10px;padding:11px 14px;background:var(--card);transition:.15s}
+input,select,textarea{width:100%;margin-bottom:10px}input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--plum);outline-offset:2px}
+button{cursor:pointer}button:hover{border-color:var(--pine)}button:disabled{opacity:.6}
+.pri,button.on{background:var(--pine);color:#000;border-color:var(--pine)}
+.pri{font-weight:600;padding:13px 22px;text-decoration:none;display:inline-block;border-radius:10px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}.tabs button{border-radius:99px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:1.2rem}.card p{margin:0;color:var(--mut);font-size:.93rem;flex:1}
+.meta{display:flex;justify-content:space-between;font-size:.88rem;color:var(--pine);font-weight:600}
+.card button{align-self:flex-start;margin-top:4px}
+.book{background:var(--soft)}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:22px;max-width:640px}
+.panel h3{font-size:1.2rem;margin-bottom:12px}.panel[hidden]{display:none}
+.hours{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-bottom:14px}
+.chosen{font-family:var(--serif);font-size:1.4rem;color:var(--pine);margin-bottom:14px}
+.msg{padding:12px;border-radius:10px;margin-top:12px}.ok{background:color-mix(in srgb,var(--ok) 16%,transparent)}.err{background:color-mix(in srgb,var(--bad) 16%,transparent)}
+.mut{color:var(--mut);font-size:.9rem}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}.contact b{display:block;font-family:var(--serif);font-size:1.1rem;margin-bottom:2px}
+footer{padding:28px 0 40px;color:var(--mut);font-size:.85rem;border-top:1px solid var(--bd)}
+@media(max-width:760px){.hero .wrap{grid-template-columns:1fr}#burger{display:block}
+.menu{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--bd);padding:8px 20px}.menu.open{display:flex}.menu a{padding:12px 0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+.logo img{display:block;height:44px;width:auto}
+.hero .wrap{align-items:center}.hero-logo{width:100%;max-width:440px;height:auto;justify-self:center;border-radius:12px}
+.hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem)}

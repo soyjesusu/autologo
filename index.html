@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Centro de Atención Integral Autólogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body>
+<nav class="nav"><div class="wrap"><a class="logo" href="#inicio" aria-label="Inicio"><img src="logo.jpg" alt="Centro de Atención Integral Autólogo"></a>
+<button id="burger" aria-label="Abrir menú">Menú</button>
+<div class="menu" id="menu"><a href="#servicios">Servicios</a><a href="#reserva">Reservar</a><a href="#contacto">Contacto</a></div></div></nav>
+
+<header class="hero" id="inicio"><div class="wrap">
+<div><h1 id="h-lema"></h1><p>Tratamientos faciales, corporales y de bienestar en un mismo lugar. Reserve su cita en línea y elija el horario que le convenga.</p><a class="pri" href="#reserva">Reservar cita</a></div>
+<img class="hero-logo" src="logo.jpg" alt="Logo del Centro de Atención Integral Autólogo"></div></header>
+
+<section class="blk" id="servicios"><div class="wrap"><h2>Servicios</h2><p class="sub">Elija una categoría y reserve directamente el tratamiento.</p>
+<div class="tabs" id="tabs"></div><div class="cards" id="cards"></div></div></section>
+
+<section class="blk book" id="reserva"><div class="wrap"><h2>Reserve su cita</h2><p class="sub" id="demo"></p>
+<div class="panel" id="p1"><h3>1. Servicio y fecha</h3>
+<select id="srv" aria-label="Servicio"></select><select id="fecha" aria-label="Fecha"></select></div>
+<div class="panel" id="p2" style="margin-top:14px" hidden><h3>2. Hora</h3><div class="hours" id="horas"></div></div>
+<div class="panel" id="p3" style="margin-top:14px" hidden><h3>3. Sus datos</h3><div class="chosen" id="resumen"></div>
+<input id="nombre" placeholder="Nombre y apellido" autocomplete="name">
+<input id="tel" placeholder="Teléfono (WhatsApp) 0412..." inputmode="tel" autocomplete="tel">
+<textarea id="notas" rows="2" placeholder="Notas (opcional)"></textarea>
+<button class="pri" id="enviar">Solicitar cita</button><div id="msg"></div></div></div></section>
+
+<section class="blk" id="contacto"><div class="wrap"><h2>Contacto</h2><p class="sub"></p>
+<div class="contact" id="contact"></div></div></section>
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script type="module">
+import {firebaseConfig,ESTUDIO,HORARIO,CATEGORIAS,SERVICIOS,ymd,tel58,bloques,inicios,toMin} from "./config.js";
+const $=i=>document.getElementById(i),S=SERVICIOS,sel={},demo=!firebaseConfig.apiKey,mem=new Set();
+let db,fb;
+if(!demo){const a=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");fb=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");db=fb.getFirestore(a.initializeApp(firebaseConfig))}
+
+// ---- Textos del estudio ----
+document.title=ESTUDIO.nombre;$("h-lema").textContent=ESTUDIO.lema;
+$("foot").textContent="© "+new Date().getFullYear()+" "+ESTUDIO.nombre+". Los tratamientos se realizan previa valoración.";
+$("contact").innerHTML=`<div><b>WhatsApp</b><a href="https://wa.me/${tel58(ESTUDIO.whatsapp)}">${ESTUDIO.whatsapp}</a></div><div><b>Instagram</b>${ESTUDIO.instagram}</div><div><b>Dirección</b>${ESTUDIO.direccion}</div><div><b>Horario</b>${ESTUDIO.horarioTexto}</div>`;
+if(demo)$("demo").textContent="Modo demostración: las reservas no se guardan fuera de esta ventana.";
+$("burger").onclick=()=>$("menu").classList.toggle("open");$("menu").onclick=()=>$("menu").classList.remove("open");
+
+// ---- Servicios por categoría ----
+const precio=s=>s.precio||"Consultar";
+$("tabs").innerHTML=CATEGORIAS.map(c=>`<button data-c="${c}">${c}</button>`).join("");
+function cat(c){[...$("tabs").children].forEach(b=>b.classList.toggle("on",b.dataset.c===c));
+ $("cards").innerHTML=Object.entries(S).filter(([,s])=>s.cat===c).map(([id,s])=>`<article class="card"><h3>${s.nombre}</h3><p>${s.desc}</p><div class="meta"><span>${s.min} min</span><span>${precio(s)}</span></div><button data-r="${id}">Reservar</button></article>`).join("")}
+$("tabs").onclick=e=>{const b=e.target.closest("button");if(b)cat(b.dataset.c)};
+$("cards").onclick=e=>{const b=e.target.closest("button[data-r]");if(!b)return;$("srv").value=b.dataset.r;elegir();$("reserva").scrollIntoView()};
+cat(CATEGORIAS[0]);
+
+// ---- Reserva (lógica de la miniapp, ahora con duración por servicio) ----
+$("srv").innerHTML=Object.entries(S).map(([id,s])=>`<option value="${id}">${s.nombre} (${s.min} min)</option>`).join("");
+const fechas=()=>{const o=[];for(let i=0;i<30&&o.length<14;i++){const d=new Date();d.setDate(d.getDate()+i);if(HORARIO.dias.includes(d.getDay()))o.push(d)}return o};
+$("fecha").innerHTML=fechas().map(d=>`<option value="${ymd(d)}">${d.toLocaleDateString("es-VE",{weekday:"long",day:"numeric",month:"long"})}</option>`).join("");
+$("srv").onchange=elegir;$("fecha").onchange=elegir;
+
+async function ocupados(f){
+ if(demo)return new Set([...mem].filter(k=>k.startsWith(f+" ")).map(k=>k.slice(11)));
+ const q=await fb.getDocs(fb.query(fb.collection(db,"ocupados"),fb.where("fecha","==",f)));
+ return new Set(q.docs.map(d=>d.data().hora))}
+
+async function elegir(){sel.s=$("srv").value;sel.f=$("fecha").value;sel.h=null;$("p3").hidden=true;$("p2").hidden=false;$("horas").textContent="Cargando…";
+ const dur=S[sel.s].min,oc=await ocupados(sel.f),now=new Date(),hoy=sel.f===ymd(now),cur=now.getHours()*60+now.getMinutes();
+ const libres=inicios(dur).filter(h=>!(hoy&&toMin(h)<=cur)&&bloques(h,dur).every(b=>!oc.has(b)));
+ $("horas").innerHTML=libres.length?libres.map(h=>`<button data-h="${h}">${h}</button>`).join(""):"<p class='mut'>No hay horarios libres ese día.</p>"}
+$("horas").onclick=e=>{const b=e.target.closest("button");if(!b)return;sel.h=b.dataset.h;
+ [...$("horas").children].forEach(x=>x.classList.toggle("on",x===b));
+ $("resumen").textContent=`${S[sel.s].nombre} · ${sel.f} · ${sel.h}`;$("p3").hidden=false};
+
+const show=(t,c)=>$("msg").innerHTML=`<div class="msg ${c}">${t}</div>`;
+$("enviar").onclick=async()=>{const nombre=$("nombre").value.trim(),telefono=$("tel").value.trim();
+ if(nombre.length<3||telefono.length<10)return show("Complete su nombre y teléfono.","err");
+ const s=S[sel.s],bl=bloques(sel.h,s.min),ids=bl.map(h=>`${sel.f}_${h.replace(":","")}`);
+ try{$("enviar").disabled=true;
+  if(demo){if(bl.some(h=>mem.has(sel.f+" "+h)))throw 0;bl.forEach(h=>mem.add(sel.f+" "+h))}
+  else{const b=fb.writeBatch(db);ids.forEach((id,i)=>b.set(fb.doc(db,"ocupados",id),{fecha:sel.f,hora:bl[i]}));
+   b.set(fb.doc(fb.collection(db,"citas")),{servicioId:sel.s,servicio:s.nombre,fecha:sel.f,hora:sel.h,duracion:s.min,slotIds:ids,nombre,telefono,notas:$("notas").value.trim().slice(0,200),estado:"pendiente",creada:fb.serverTimestamp()});
+   await b.commit()}
+  show(`Solicitud enviada: ${s.nombre}, ${sel.f} a las ${sel.h}. Le confirmaremos por WhatsApp.`,"ok");$("p3").hidden=true;elegir()}
+ catch(e){show("Ese horario acaba de ser tomado. Elija otro.","err");elegir()}finally{$("enviar").disabled=false}};
+elegir();
+</script></body></html>
