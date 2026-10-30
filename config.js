@@ -6,20 +6,17 @@ export const ESTUDIO = {
   nombre: "Centro de Atención Integral Autólogo",
   lema: "Tratamientos autólogos, estéticos y de bienestar en un solo centro",
   whatsapp: "04125181472",
-  whatsappAgenda: "04125181472",   // WhatsApp de la administradora (04125181472): recibe la agenda del día para reenviarla al profesional
-  instagram: "",   // escribir el @ real para que aparezca en el sitio
+  whatsappAgenda: "04125181472",
+  instagram: "",
   direccion: "Caracas, Venezuela",
   horarioTexto: "Lunes a sábado, 9:00 a.m. a 6:00 p.m."
 };
 
-// dias: 0=domingo ... 6=sábado. Cuadrícula de 30 min.
 export const HORARIO = { dias: [1, 2, 3, 4, 5, 6], desde: "09:00", hasta: "18:00" };
 export const PASO = 30;
 
 export const CATEGORIAS = ["Rostro y piel", "Cuerpo", "Relax y bienestar", "Rehabilitación"];
 
-// img: ruta de la foto, por ejemplo "limpieza.jpg" (subir a la carpeta img). Vacío = sin foto.
-// min = duración en minutos (propuesta, ajustar). precio "" = se muestra "Consultar".
 export const SERVICIOS = {
   limpieza:   { cat: "Rostro y piel", nombre: "Limpieza facial", desc: "Limpieza profunda para renovar y equilibrar la piel.", min: 60, precio: "", img: "facial.jpg" },
   prp:        { cat: "Rostro y piel", nombre: "Plasma rico en plaquetas", desc: "Tratamiento autólogo que estimula la regeneración de la piel.", min: 60, precio: "", img: "" },
@@ -39,12 +36,9 @@ export const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStar
 export const tel58 = t => { let d = (t || "").replace(/\D/g, ""); if (d.startsWith("0")) d = d.slice(1); return d.startsWith("58") ? d : "58" + d; };
 export const toMin = h => { const [a, b] = h.split(":").map(Number); return a * 60 + b; };
 export const hm = m => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
-// Bloques de 30 min que ocupa un servicio que empieza a la hora h
 export const bloques = (h, dur) => { const o = [], s = toMin(h); for (let m = s; m < s + dur; m += PASO) o.push(hm(m)); return o; };
-// Horas de inicio posibles para un servicio de dur minutos
 export const inicios = dur => { const o = []; for (let m = toMin(HORARIO.desde); m + dur <= toMin(HORARIO.hasta); m += PASO) o.push(hm(m)); return o; };
 
-// FOTOS: subir los archivos a la carpeta img y escribir aquí las rutas.
-export const HERO_IMG = "portada.jpg";   // foto de fondo de la portada, ej: "portada.jpg"
-export const GALERIA = [];    // ej: ["g1.jpg","g2.jpg","g3.jpg","g4.jpg"]
-export const CREDITOS = "Imágenes: Freepik";   // ajustar según la licencia/atribución exigida; dejar "" si no aplica
+export const HERO_IMG = "portada.jpg";
+export const GALERIA = [];
+export const CREDITOS = "Imágenes: Freepik";
