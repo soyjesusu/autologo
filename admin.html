@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Agenda de citas</title><link rel="stylesheet" href="style.css">
+<style>.cita{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--pine);border-radius:12px;padding:14px;margin-bottom:10px}.cita b{font-size:1.1rem}.cita.cancelada{opacity:.5}
+.tag{font-size:.75rem;padding:2px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--bd);color:var(--pine)}.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.acts button,.acts a{padding:7px 12px;font-size:.9rem;text-decoration:none;color:inherit;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.bar input{width:auto;margin:0}</style></head><body>
+<nav class="nav"><div class="wrap"><a class="logo" href="./"><img src="logo.jpg" alt="Inicio"></a><span class="mut">Agenda de citas</span></div></nav>
+<main class="wrap" style="padding:28px 20px">
+<div class="panel" id="login"><h3>Ingresar</h3><input id="em" type="email" placeholder="Correo" autocomplete="username"><input id="pw" type="password" placeholder="Clave" autocomplete="current-password"><button class="pri" id="go">Entrar</button><div id="lmsg"></div></div>
+<div id="app" hidden><div class="bar"><input type="date" id="dia"><button id="out">Cerrar sesión</button><button id="resu">Enviar agenda del día por WhatsApp</button></div><div id="lista"></div></div>
+</main>
+<script type="module">
+import {firebaseConfig,ESTUDIO,ymd,tel58} from "./config.js";
+const $=i=>document.getElementById(i),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+if(!firebaseConfig.apiKey){$("login").innerHTML="<h3>Firebase sin configurar</h3><p class='mut'>Pegue las credenciales de su proyecto en config.js.</p>"}
+else{
+const {initializeApp}=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+const A=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"),F=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+const app=initializeApp(firebaseConfig),auth=A.getAuth(app),db=F.getFirestore(app);let citas=[];
+$("dia").value=ymd(new Date());
+$("go").onclick=()=>A.signInWithEmailAndPassword(auth,$("em").value,$("pw").value).catch(()=>$("lmsg").innerHTML='<div class="msg err">Credenciales inválidas.</div>');
+$("out").onclick=()=>A.signOut(auth);
+A.onAuthStateChanged(auth,u=>{$("login").hidden=!!u;$("app").hidden=!u;if(u)cargar()});
+$("dia").onchange=cargar;
+async function cargar(){try{const q=await F.getDocs(F.query(F.collection(db,"citas"),F.where("fecha","==",$("dia").value)));
+ citas=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.hora.localeCompare(b.hora));pintar()}
+ catch(e){$("lista").innerHTML='<div class="msg err">Sin permiso: su usuario debe estar registrado en la colección staff.</div>'}}
+const wa=(tel,txt)=>`https://wa.me/${tel?tel58(tel):""}?text=${encodeURIComponent(txt)}`;
+function pintar(){$("lista").innerHTML=citas.length?citas.map(c=>{
+ const msg=`Hola ${c.nombre}, le recordamos su cita en ${ESTUDIO.nombre} (${c.servicio}) el ${c.fecha} a las ${c.hora}. Por favor responda SÍ para confirmar.`;
+ return `<div class="cita ${c.estado==="cancelada"?"cancelada":""}"><b>${esc(c.hora)}</b> · ${esc(c.servicio)} <span class="mut">(${esc(c.duracion)} min)</span> <span class="tag">${esc(c.estado)}</span>
+ <div>${esc(c.nombre)} · ${esc(c.telefono)}</div><div class="mut">${esc(c.notas)}</div>
+ <div class="acts"><button data-a="conf" data-id="${c.id}">Confirmar</button><a href="${wa(c.telefono,msg)}" target="_blank" rel="noopener">Recordatorio WhatsApp</a><button data-a="atend" data-id="${c.id}">Atendida</button><button data-a="canc" data-id="${c.id}">Cancelar</button></div></div>`}).join(""):"<p class='mut'>Sin citas este día.</p>"}
+$("resu").onclick=()=>{const l=citas.filter(c=>c.estado!=="cancelada"),t=`Agenda ${$("dia").value} - ${ESTUDIO.nombre}\n`+(l.length?l.map(c=>`${c.hora} ${c.nombre} - ${c.servicio} (${c.duracion} min)`).join("\n"):"Sin citas programadas.");window.open(wa("",t),"_blank")};
+$("lista").onclick=async e=>{const b=e.target.closest("button[data-a]");if(!b)return;const c=citas.find(x=>x.id===b.dataset.id),a=b.dataset.a,estado={conf:"confirmada",atend:"atendida",canc:"cancelada"}[a];
+ if(a==="canc"&&!confirm("¿Cancelar esta cita y liberar el horario?"))return;
+ const w=F.writeBatch(db);w.update(F.doc(db,"citas",c.id),{estado});
+ if(a==="canc")(c.slotIds||[]).forEach(id=>w.delete(F.doc(db,"ocupados",id))); // libera todos los bloques
+ await w.commit();cargar()};
+}
+</script></body></html>
