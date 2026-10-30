@@ -1,6 +1,6 @@
 // ÚNICO archivo a editar: datos del estudio, servicios, horario y Firebase.
 // Si apiKey está vacío, el sitio funciona en MODO DEMO (reservas solo en memoria).
-export const firebaseConfig = { apiKey: "", authDomain: "", projectId: "", appId: "" };
+export const firebaseConfig = { apiKey: "AIzaSyC7vo6Ck9jfPVSLpbRwDY3LdZoz_q2RAAc", authDomain: "autologo-22ed8.firebaseapp.com", projectId: "autologo-22ed8", appId: "1:465834794532:web:144e48655691d536c242b1" };
 
 export const ESTUDIO = {
   nombre: "Centro de Atención Integral Autólogo",
