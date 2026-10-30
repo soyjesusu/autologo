@@ -6,7 +6,7 @@ export const ESTUDIO = {
   nombre: "Centro de Atención Integral Autólogo",
   lema: "Tratamientos autólogos, estéticos y de bienestar en un solo centro",
   whatsapp: "04125181472",
-  whatsappAgenda: "04125181472",
+  whatsappAgenda: "",   // WhatsApp de la administradora (0412XXXXXXX): recibe la agenda del día para reenviarla al profesional
   instagram: "",   // escribir el @ real para que aparezca en el sitio
   direccion: "Caracas, Venezuela",
   horarioTexto: "Lunes a sábado, 9:00 a.m. a 6:00 p.m."
@@ -40,4 +40,11 @@ export const tel58 = t => { let d = (t || "").replace(/\D/g, ""); if (d.startsWi
 export const toMin = h => { const [a, b] = h.split(":").map(Number); return a * 60 + b; };
 export const hm = m => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
 // Bloques de 30 min que ocupa un servicio que empieza a la hora h
-export const bloques =
+export const bloques = (h, dur) => { const o = [], s = toMin(h); for (let m = s; m < s + dur; m += PASO) o.push(hm(m)); return o; };
+// Horas de inicio posibles para un servicio de dur minutos
+export const inicios = dur => { const o = []; for (let m = toMin(HORARIO.desde); m + dur <= toMin(HORARIO.hasta); m += PASO) o.push(hm(m)); return o; };
+
+// FOTOS: subir los archivos a la carpeta img y escribir aquí las rutas.
+export const HERO_IMG = "portada.jpg";   // foto de fondo de la portada, ej: "portada.jpg"
+export const GALERIA = [];    // ej: ["g1.jpg","g2.jpg","g3.jpg","g4.jpg"]
+export const CREDITOS = "Imágenes: Freepik";   // ajustar según la licencia/atribución exigida; dejar "" si no aplica
