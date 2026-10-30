@@ -17,19 +17,19 @@ export const PASO = 30;
 
 export const CATEGORIAS = ["Rostro y piel", "Cuerpo", "Relax y bienestar", "Rehabilitación"];
 
-// img: ruta de la foto, por ejemplo "img/limpieza.jpg" (subir a la carpeta img). Vacío = sin foto.
+// img: ruta de la foto, por ejemplo "limpieza.jpg" (subir a la carpeta img). Vacío = sin foto.
 // min = duración en minutos (propuesta, ajustar). precio "" = se muestra "Consultar".
 export const SERVICIOS = {
-  limpieza:   { cat: "Rostro y piel", nombre: "Limpieza facial", desc: "Limpieza profunda para renovar y equilibrar la piel.", min: 60, precio: "", img: "img/facial.jpg" },
+  limpieza:   { cat: "Rostro y piel", nombre: "Limpieza facial", desc: "Limpieza profunda para renovar y equilibrar la piel.", min: 60, precio: "", img: "facial.jpg" },
   prp:        { cat: "Rostro y piel", nombre: "Plasma rico en plaquetas", desc: "Tratamiento autólogo que estimula la regeneración de la piel.", min: 60, precio: "", img: "" },
   vitamino:   { cat: "Rostro y piel", nombre: "Vitaminoterapia", desc: "Aporte de vitaminas y nutrientes para revitalizar la piel.", min: 45, precio: "", img: "" },
   verrugas:   { cat: "Rostro y piel", nombre: "Eliminación de verrugas", desc: "Retiro de verrugas de forma segura y localizada.", min: 30, precio: "", img: "" },
   hidrolipo:  { cat: "Cuerpo", nombre: "Hidrolipoclasia", desc: "Reducción de grasa localizada.", min: 60, precio: "", img: "" },
   enzimas:    { cat: "Cuerpo", nombre: "Aplicación de enzimas localizadas", desc: "Enzimas aplicadas en zonas específicas del cuerpo.", min: 45, precio: "", img: "" },
-  reductor:   { cat: "Cuerpo", nombre: "Masajes reductores", desc: "Masaje corporal para moldear y reducir medidas.", min: 60, precio: "", img: "img/masaje.jpg" },
-  drenaje:    { cat: "Cuerpo", nombre: "Drenaje linfático", desc: "Movimiento suave de líquidos para desinflamar y aliviar la retención.", min: 60, precio: "", img: "img/masaje.jpg" },
-  descontrac: { cat: "Relax y bienestar", nombre: "Masaje descontracturante", desc: "Alivia tensión y contracturas musculares.", min: 60, precio: "", img: "img/masaje.jpg" },
-  antistress: { cat: "Relax y bienestar", nombre: "Masaje anti stress y relajante", desc: "Masaje para soltar el cuerpo y descansar la mente.", min: 60, precio: "", img: "img/masaje.jpg" },
+  reductor:   { cat: "Cuerpo", nombre: "Masajes reductores", desc: "Masaje corporal para moldear y reducir medidas.", min: 60, precio: "", img: "masaje.jpg" },
+  drenaje:    { cat: "Cuerpo", nombre: "Drenaje linfático", desc: "Movimiento suave de líquidos para desinflamar y aliviar la retención.", min: 60, precio: "", img: "masaje.jpg" },
+  descontrac: { cat: "Relax y bienestar", nombre: "Masaje descontracturante", desc: "Alivia tensión y contracturas musculares.", min: 60, precio: "", img: "masaje.jpg" },
+  antistress: { cat: "Relax y bienestar", nombre: "Masaje anti stress y relajante", desc: "Masaje para soltar el cuerpo y descansar la mente.", min: 60, precio: "", img: "masaje.jpg" },
   pediluvio:  { cat: "Relax y bienestar", nombre: "Pediluvio iónico", desc: "Baño de pies iónico para relajar y desintoxicar.", min: 45, precio: "", img: "" },
   rehab:      { cat: "Rehabilitación", nombre: "Rehabilitación física", desc: "Sesiones guiadas de recuperación. Requiere informe médico previo.", min: 60, precio: "", img: "" }
 };
@@ -44,6 +44,6 @@ export const bloques = (h, dur) => { const o = [], s = toMin(h); for (let m = s;
 export const inicios = dur => { const o = []; for (let m = toMin(HORARIO.desde); m + dur <= toMin(HORARIO.hasta); m += PASO) o.push(hm(m)); return o; };
 
 // FOTOS: subir los archivos a la carpeta img y escribir aquí las rutas.
-export const HERO_IMG = "img/portada.jpg";   // foto de fondo de la portada, ej: "img/portada.jpg"
-export const GALERIA = [];    // ej: ["img/g1.jpg","img/g2.jpg","img/g3.jpg","img/g4.jpg"]
+export const HERO_IMG = "portada.jpg";   // foto de fondo de la portada, ej: "portada.jpg"
+export const GALERIA = [];    // ej: ["g1.jpg","g2.jpg","g3.jpg","g4.jpg"]
 export const CREDITOS = "Imágenes: Freepik";   // ajustar según la licencia/atribución exigida; dejar "" si no aplica

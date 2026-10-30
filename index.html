@@ -61,7 +61,7 @@ if(demo)$("demo").textContent="Modo demostración: las reservas no se guardan fu
 $("burger").onclick=()=>$("menu").classList.toggle("open");$("menu").onclick=()=>$("menu").classList.remove("open");
 
 // ---- Servicios por categoría ----
-const precio=s=>s.precio||"Consultar",CI={"Rostro y piel":"img/rostro.svg","Cuerpo":"img/cuerpo.svg","Relax y bienestar":"img/relax.svg","Rehabilitación":"img/rehab.svg"};
+const precio=s=>s.precio||"Consultar",CI={"Rostro y piel":"rostro.svg","Cuerpo":"cuerpo.svg","Relax y bienestar":"relax.svg","Rehabilitación":"rehab.svg"};
 $("tabs").innerHTML=CATEGORIAS.map(c=>`<button data-c="${c}">${c}</button>`).join("");
 function cat(c){[...$("tabs").children].forEach(b=>b.classList.toggle("on",b.dataset.c===c));
  $("cards").innerHTML=Object.entries(S).filter(([,s])=>s.cat===c).map(([id,s])=>`<article class="card"><img src="${s.img||CI[s.cat]}" alt="${s.nombre}" loading="lazy"><h3>${s.nombre}</h3><p>${s.desc}</p><div class="meta"><span>${s.min} min</span><span>${precio(s)}</span></div><button data-r="${id}">Reservar</button></article>`).join("")}
