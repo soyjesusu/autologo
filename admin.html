@@ -7,7 +7,7 @@
 <nav class="nav"><div class="wrap"><a class="logo" href="./"><img src="logo.jpg" alt="Inicio"></a><span class="mut">Agenda de citas</span></div></nav>
 <main class="wrap" style="padding:28px 20px">
 <div class="panel" id="login"><h3>Ingresar</h3><input id="em" type="email" placeholder="Correo" autocomplete="username"><div class="pw"><input id="pw" type="password" placeholder="Clave" autocomplete="current-password"><button type="button" id="eye" aria-label="Mostrar clave" title="Mostrar clave">👁</button></div><button class="pri" id="go">Entrar</button><div id="lmsg"></div></div>
-<div id="app" hidden><div class="bar"><input type="date" id="dia"><button id="out">Cerrar sesión</button><button id="resu">Enviar agenda del día por WhatsApp</button></div><div id="lista"></div></div>
+<div id="app" hidden><div class="bar"><input type="date" id="dia"><button id="out">Cerrar sesión</button><button id="resu">Enviar agenda a la administradora</button></div><div id="lista"></div></div>
 </main>
 <script type="module">
 import {firebaseConfig,ESTUDIO,ymd,tel58} from "./config.js";
@@ -33,7 +33,9 @@ function pintar(){$("lista").innerHTML=citas.length?citas.map(c=>{
  return `<div class="cita ${c.estado==="cancelada"?"cancelada":""}"><b>${esc(c.hora)}</b> · ${esc(c.servicio)} <span class="mut">(${esc(c.duracion)} min)</span> <span class="tag">${esc(c.estado)}</span>
  <div>${esc(c.nombre)} · ${esc(c.telefono)}</div><div class="mut">${esc(c.notas)}</div>
  <div class="acts"><button data-a="conf" data-id="${c.id}">Confirmar</button><a href="${wa(c.telefono,msg)}" target="_blank" rel="noopener">Recordatorio WhatsApp</a><button data-a="atend" data-id="${c.id}">Atendida</button><button data-a="canc" data-id="${c.id}">Cancelar</button></div></div>`}).join(""):"<p class='mut'>Sin citas este día.</p>"}
-$("resu").onclick=()=>{const l=citas.filter(c=>c.estado!=="cancelada"),t=`Agenda ${$("dia").value} - ${ESTUDIO.nombre}\n`+(l.length?l.map(c=>`${c.hora} ${c.nombre} - ${c.servicio} (${c.duracion} min)`).join("\n"):"Sin citas programadas.");window.open(wa("",t),"_blank")};
+$("resu").onclick=()=>{const l=citas.filter(c=>c.estado!=="cancelada"),d=new Date($("dia").value+"T12:00:00").toLocaleDateString("es-VE",{weekday:"long",day:"numeric",month:"long"}),
+ t=`*Agenda del ${d}* - ${ESTUDIO.nombre}\n\n`+(l.length?l.map(c=>`${c.hora} · ${c.servicio} (${c.duracion} min)\n${c.nombre}${c.notas?"\nNota: "+c.notas:""}`).join("\n\n"):"Sin citas programadas.");
+ window.open(wa(ESTUDIO.whatsappAgenda,t),"_blank")};
 $("lista").onclick=async e=>{const b=e.target.closest("button[data-a]");if(!b)return;const c=citas.find(x=>x.id===b.dataset.id),a=b.dataset.a,estado={conf:"confirmada",atend:"atendida",canc:"cancelada"}[a];
  if(a==="canc"&&!confirm("¿Cancelar esta cita y liberar el horario?"))return;
  const w=F.writeBatch(db);w.update(F.doc(db,"citas",c.id),{estado});

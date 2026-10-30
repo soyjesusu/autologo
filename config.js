@@ -6,6 +6,7 @@ export const ESTUDIO = {
   nombre: "Centro de Atención Integral Autólogo",
   lema: "Tratamientos autólogos, estéticos y de bienestar en un solo centro",
   whatsapp: "04125181472",
+  whatsappAgenda: "",   // WhatsApp de la administradora (0412XXXXXXX): recibe la agenda del día para reenviarla al profesional
   instagram: "",   // escribir el @ real para que aparezca en el sitio
   direccion: "Caracas, Venezuela",
   horarioTexto: "Lunes a sábado, 9:00 a.m. a 6:00 p.m."
