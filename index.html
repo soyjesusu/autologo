@@ -1,103 +1,108 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Centro de Atención Integral Autólogo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"></head><body>
-<nav class="nav"><div class="wrap"><a class="logo" href="#inicio" aria-label="Inicio"><img src="logo.jpg" alt="Centro de Atención Integral Autólogo"></a>
-<button id="burger" aria-label="Abrir menú">Menú</button>
-<div class="menu" id="menu"><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#reserva">Reservar</a><a href="#contacto">Contacto</a></div></div></nav>
-
-<header class="hero" id="inicio"><div class="wrap">
-<div><h1 id="h-lema"></h1><p>Tratamientos faciales, corporales y de bienestar en un mismo lugar. Reserve su cita en línea y elija el horario que le convenga.</p><a class="pri" href="#reserva">Reservar cita</a></div>
-<img class="hero-logo" src="logo.jpg" alt="Logo del Centro de Atención Integral Autólogo"></div></header>
-
-<section class="strip"><div class="wrap">
-<div><h3>Tratamientos autólogos</h3><p>Terapias que aprovechan los recursos de su propio cuerpo.</p></div>
-<div><h3>Valoración previa</h3><p>Cada plan empieza con una evaluación de su caso.</p></div>
-<div><h3>Atención integral</h3><p>Rostro, cuerpo, relajación y rehabilitación en un mismo centro.</p></div>
-<div><h3>Reserva en línea</h3><p>Elija su servicio, fecha y hora desde el teléfono.</p></div></div></section>
-
-<section class="blk" id="servicios"><div class="wrap"><h2>Servicios</h2><p class="sub">Elija una categoría y reserve directamente el tratamiento.</p>
-<div class="tabs" id="tabs"></div><div class="cards" id="cards"></div></div></section>
-
-<section class="blk book" id="reserva"><div class="wrap"><h2>Reserve su cita</h2><p class="sub" id="demo"></p>
-<div class="panel" id="p1"><h3>1. Servicio y fecha</h3>
-<select id="srv" aria-label="Servicio"></select><select id="fecha" aria-label="Fecha"></select></div>
-<div class="panel" id="p2" style="margin-top:14px" hidden><h3>2. Hora</h3><div class="hours" id="horas"></div></div>
-<div class="panel" id="p3" style="margin-top:14px" hidden><h3>3. Sus datos</h3><div class="chosen" id="resumen"></div>
-<input id="nombre" placeholder="Nombre y apellido" autocomplete="name">
-<input id="tel" placeholder="Teléfono (WhatsApp) 0412..." inputmode="tel" autocomplete="tel">
-<textarea id="notas" rows="2" placeholder="Notas (opcional)"></textarea>
-<button class="pri" id="enviar">Solicitar cita</button><div id="msg"></div></div></div></section>
-
-<section class="blk" id="galeria" hidden><div class="wrap"><h2>Nuestro centro</h2><p class="sub">Conozca el espacio donde le atendemos.</p><div class="gal" id="gal"></div></div></section>
-
-<section class="blk" id="proceso"><div class="wrap"><h2>Cómo trabajamos</h2><p class="sub">Un proceso claro, de la primera consulta al seguimiento.</p>
-<div class="steps4"><div><span>1</span><h3>Reserva</h3><p>Elija el servicio y el horario en esta página.</p></div>
-<div><span>2</span><h3>Valoración</h3><p>Evaluamos su caso y definimos el tratamiento adecuado.</p></div>
-<div><span>3</span><h3>Sesión</h3><p>Realizamos el tratamiento con atención personalizada.</p></div>
-<div><span>4</span><h3>Seguimiento</h3><p>Le indicamos cuidados y próximas sesiones.</p></div></div></div></section>
-
-<section class="blk"><div class="wrap"><div class="cta"><h2>¿Tiene dudas sobre qué tratamiento elegir?</h2><p>Escríbanos y le orientamos antes de reservar.</p><a class="pri" id="cta" target="_blank" rel="noopener">Escribir por WhatsApp</a></div></div></section>
-
-<section class="blk" id="contacto"><div class="wrap"><h2>Contacto</h2><p class="sub"></p>
-<div class="contact" id="contact"></div></div></section>
-<a class="wa" id="wa" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">WhatsApp</a>
-<footer><div class="wrap" id="foot"></div></footer>
-
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Agenda de citas</title><link rel="stylesheet" href="style.css">
+<style>.cita{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--pine);border-radius:12px;padding:14px;margin-bottom:10px}.cita b{font-size:1.1rem}
+.tag{font-size:.75rem;padding:2px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--bd);color:var(--pine)}.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.acts button,.acts a{padding:7px 12px;font-size:.9rem;text-decoration:none;color:inherit;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
+.pw{position:relative}.pw input{padding-right:52px}.pw button{position:absolute;right:6px;top:5px;border:0;background:none;padding:6px 10px;font-size:1.1rem;opacity:.8}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.bar input{width:auto;margin:0}</style></head><body>
+<nav class="nav"><div class="wrap"><a class="logo" href="./"><img src="logo.jpg" alt="Inicio"></a><span class="mut">Agenda de citas</span></div></nav>
+<main class="wrap" style="padding:28px 20px">
+<div class="panel" id="login"><h3>Ingresar</h3><input id="em" type="email" placeholder="Correo" autocomplete="username"><div class="pw"><input id="pw" type="password" placeholder="Clave" autocomplete="current-password"><button type="button" id="eye" aria-label="Mostrar clave" title="Mostrar clave">👁</button></div><button class="pri" id="go">Entrar</button><div id="lmsg"></div></div>
+<div id="app" hidden><div class="bar"><input type="date" id="dia"><button id="out">Cerrar sesión</button><button id="copi">Copiar agenda</button><button id="resu">Enviar agenda a la administradora</button></div><p class="mut" id="dest"></p><div id="lista"></div></div>
+</main>
 <script type="module">
-import {firebaseConfig,ESTUDIO,HORARIO,CATEGORIAS,SERVICIOS,ymd,tel58,bloques,inicios,toMin,HERO_IMG,GALERIA,CREDITOS} from "./config.js";
-const $=i=>document.getElementById(i),S=SERVICIOS,sel={},demo=!firebaseConfig.apiKey,mem=new Set();
-let db,fb;
-if(!demo){const a=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");fb=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");db=fb.getFirestore(a.initializeApp(firebaseConfig))}
+import {firebaseConfig,ESTUDIO,ymd,tel58} from "./config.js";
+const $=i=>document.getElementById(i),esc=s=>String(s?="").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-// ---- Textos del estudio ----
-document.title=ESTUDIO.nombre;$("h-lema").textContent=ESTUDIO.lema;
-$("foot").textContent="© "+new Date().getFullYear()+" "+ESTUDIO.nombre+". Los tratamientos se realizan previa valoración."+(CREDITOS?" "+CREDITOS+".":"");
-$("contact").innerHTML=`<div><b>WhatsApp</b><a href="https://wa.me/${tel58(ESTUDIO.whatsapp)}">${ESTUDIO.whatsapp}</a> · <a href="tel:+${tel58(ESTUDIO.whatsapp)}">Llamar</a></div>${ESTUDIO.instagram?`<div><b>Instagram</b>${ESTUDIO.instagram}</div>`:""}<div><b>Dirección</b>${ESTUDIO.direccion}</div><div><b>Horario</b>${ESTUDIO.horarioTexto}</div>`;
-$("wa").href=$("cta").href="https://wa.me/"+tel58(ESTUDIO.whatsapp)+"?text="+encodeURIComponent("Hola, quisiera información sobre sus tratamientos.");
-if(GALERIA.length){$("galeria").hidden=false;$("gal").innerHTML=GALERIA.map(g=>`<img src="${g}" alt="Centro de Atención Integral Autólogo" loading="lazy">`).join("")}
-if(HERO_IMG)$("inicio").style.background=`linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.88)),url(${HERO_IMG}) center/cover`;
-if(demo)$("demo").textContent="Modo demostración: las reservas no se guardan fuera de esta ventana.";
-$("burger").onclick=()=>$("menu").classList.toggle("open");$("menu").onclick=()=>$("menu").classList.remove("open");
+// Configurar el botón del ojito de forma segura e inmediata
+const eyeBtn = $("eye");
+if (eyeBtn) {
+  eyeBtn.onclick = () => {
+    const pwInput = $("pw");
+    const v = pwInput.type === "password";
+    pwInput.type = v ? "text" : "password";
+    eyeBtn.style.opacity = v ? 1 : .5;
+    eyeBtn.title = v ? "Ocultar clave" : "Mostrar clave";
+  };
+}
 
-// ---- Servicios por categoría ----
-const precio=s=>s.precio||"Consultar",CI={"Rostro y piel":"rostro.svg","Cuerpo":"cuerpo.svg","Relax y bienestar":"relax.svg","Rehabilitación":"rehab.svg"};
-$("tabs").innerHTML=CATEGORIAS.map(c=>`<button data-c="${c}">${c}</button>`).join("");
-function cat(c){[...$("tabs").children].forEach(b=>b.classList.toggle("on",b.dataset.c===c));
- $("cards").innerHTML=Object.entries(S).filter(([,s])=>s.cat===c).map(([id,s])=>`<article class="card"><img src="${s.img||CI[s.cat]}" alt="${s.nombre}" loading="lazy"><h3>${s.nombre}</h3><p>${s.desc}</p><div class="meta"><span>${s.min} min</span><span>${precio(s)}</span></div><button data-r="${id}">Reservar</button></article>`).join("")}
-$("tabs").onclick=e=>{const b=e.target.closest("button");if(b)cat(b.dataset.c)};
-$("cards").onclick=e=>{const b=e.target.closest("button[data-r]");if(!b)return;$("srv").value=b.dataset.r;elegir();$("reserva").scrollIntoView()};
-cat(CATEGORIAS[0]);
+$("pw").onkeydown = e => { if (e.key === "Enter") $("go").click(); };
 
-// ---- Reserva (lógica de la miniapp, ahora con duración por servicio) ----
-$("srv").innerHTML=Object.entries(S).map(([id,s])=>`<option value="${id}">${s.nombre} (${s.min} min)</option>`).join("");
-const fechas=()=>{const o=[];for(let i=0;i<30&&o.length<14;i++){const d=new Date();d.setDate(d.getDate()+i);if(HORARIO.dias.includes(d.getDay()))o.push(d)}return o};
-$("fecha").innerHTML=fechas().map(d=>`<option value="${ymd(d)}">${d.toLocaleDateString("es-VE",{weekday:"long",day:"numeric",month:"long"})}</option>`).join("");
-$("srv").onchange=elegir;$("fecha").onchange=elegir;
-
-async function ocupados(f){
- if(demo)return new Set([...mem].filter(k=>k.startsWith(f+" ")).map(k=>k.slice(11)));
- const q=await fb.getDocs(fb.query(fb.collection(db,"ocupados"),fb.where("fecha","==",f)));
- return new Set(q.docs.map(d=>d.data().hora))}
-
-async function elegir(){sel.s=$("srv").value;sel.f=$("fecha").value;sel.h=null;$("p3").hidden=true;$("p2").hidden=false;$("horas").textContent="Cargando…";
- const dur=S[sel.s].min,oc=await ocupados(sel.f),now=new Date(),hoy=sel.f===ymd(now),cur=now.getHours()*60+now.getMinutes();
- const libres=inicios(dur).filter(h=>!(hoy&&toMin(h)<=cur)&&bloques(h,dur).every(b=>!oc.has(b)));
- $("horas").innerHTML=libres.length?libres.map(h=>`<button data-h="${h}">${h}</button>`).join(""):"<p class='mut'>No hay horarios libres ese día.</p>"}
-$("horas").onclick=e=>{const b=e.target.closest("button");if(!b)return;sel.h=b.dataset.h;
- [...$("horas").children].forEach(x=>x.classList.toggle("on",x===b));
- $("resumen").textContent=`${S[sel.s].nombre} · ${sel.f} · ${sel.h}`;$("p3").hidden=false};
-
-const show=(t,c)=>$("msg").innerHTML=`<div class="msg ${c}">${t}</div>`;
-$("enviar").onclick=async()=>{const nombre=$("nombre").value.trim(),telefono=$("tel").value.trim();
- if(nombre.length<3||telefono.length<10)return show("Complete su nombre y teléfono.","err");
- const s=S[sel.s],bl=bloques(sel.h,s.min),ids=bl.map(h=>`${sel.f}_${h.replace(":","")}`);
- try{$("enviar").disabled=true;
-  if(demo){if(bl.some(h=>mem.has(sel.f+" "+h)))throw 0;bl.forEach(h=>mem.add(sel.f+" "+h))}
-  else{const b=fb.writeBatch(db);ids.forEach((id,i)=>b.set(fb.doc(db,"ocupados",id),{fecha:sel.f,hora:bl[i]}));
-   b.set(fb.doc(fb.collection(db,"citas")),{servicioId:sel.s,servicio:s.nombre,fecha:sel.f,hora:sel.h,duracion:s.min,slotIds:ids,nombre,telefono,notas:$("notas").value.trim().slice(0,200),estado:"pendiente",creada:fb.serverTimestamp()});
-   await b.commit()}
-  show(`Solicitud enviada: ${s.nombre}, ${sel.f} a las ${sel.h}. Le confirmaremos por WhatsApp.`,"ok");$("p3").hidden=true;elegir()}
- catch(e){show("Ese horario acaba de ser tomado. Elija otro.","err");elegir()}finally{$("enviar").disabled=false}};
-elegir();
+if (!firebaseConfig.apiKey) {
+  $("login").innerHTML = "<h3>Firebase sin configurar</h3><p class='mut'>Pegue las credenciales de su proyecto en config.js.</p>";
+} else {
+  const {initializeApp} = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  const A = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+  const F = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+  
+  const app = initializeApp(firebaseConfig), auth = A.getAuth(app), db = F.getFirestore(app);
+  let citas = [];
+  
+  $("dia").value = ymd(new Date());
+  $("go").onclick = () => A.signInWithEmailAndPassword(auth, $("em").value, $("pw").value).catch(e => $("lmsg").innerHTML = '<div class="msg err">No se pudo ingresar. Código: <b>' + esc(e.code || e.message) + '</b></div>');
+  $("out").onclick = () => A.signOut(auth);
+  
+  A.onAuthStateChanged(auth, u => {
+    $("login").hidden = !!u;
+    $("app").hidden = !u;
+    if (u) cargar();
+  });
+  
+  $("dia").onchange = cargar;
+  
+  async function cargar() {
+    try {
+      const q = await F.getDocs(F.query(F.collection(db, "citas"), F.where("fecha", "==", $("dia").value)));
+      citas = q.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => a.hora.localeCompare(b.hora));
+      pintar();
+    } catch (e) {
+      $("lista").innerHTML = '<div class="msg err">No se pudieron leer las citas. Código: <b>' + esc(e.code || e.message) + '</b><br><span class="mut">Si dice permission-denied: su usuario debe estar en la colección staff (el ID del documento debe ser su UID) y las reglas deben estar publicadas.</span></div>';
+    }
+  }
+  
+  const wa = (tel, txt) => `https://api.whatsapp.com/send?phone=${tel ? tel58(tel) : ""}&text=${encodeURIComponent(txt)}`;
+  
+  function pintar() {
+    $("lista").innerHTML = citas.length ? citas.map(c => {
+      const msg = `Hola ${c.nombre}, le recordamos su cita en ${ESTUDIO.nombre} (${c.servicio}) el ${c.fecha} a las ${c.hora}. Por favor responda SÍ para confirmar.`;
+      return `<div class="cita ${c.estado === "cancelada" ? "cancelada" : ""}"><b>${esc(c.hora)}</b> · ${esc(c.servicio)} <span class="mut">(${esc(c.duracion)} min)</span> <span class="tag">${esc(c.estado)}</span>
+      <div>${esc(c.nombre)} · ${esc(c.telefono)}</div><div class="mut">${esc(c.notas)}</div>
+      <div class="acts"><button data-a="conf" data-id="${c.id}">Confirmar</button><a href="${wa(c.telefono, msg)}" target="_blank" rel="noopener">Recordatorio WhatsApp</a><button data-a="atend" data-id="${c.id}">Atendida</button><button data-a="canc" data-id="${c.id}">Cancelar</button></div></div>`;
+    }).join("") : "<p class='mut'>Sin citas este día.</p>";
+  }
+  
+  const agenda = () => {
+    const l = citas.filter(c => c.estado !== "cancelada"), d = new Date($("dia").value + "T12:00:00").toLocaleDateString("es-VE", {weekday: "long", day: "numeric", month: "long"});
+    return `*Agenda del ${d}* - ${ESTUDIO.nombre}\n\n` + (l.length ? l.map(c => `${c.hora} · ${c.servicio} (${c.duracion} min)\n${c.nombre}${c.notas ? "\nNota: " + c.notas : ""}`).join("\n\n") : "Sin citas programadas.");
+  };
+  
+  const num = tel58(ESTUDIO.whatsappAgenda), okNum = /^58\d{10}$/.test(num);
+  $("dest").innerHTML = okNum ? "La agenda se enviará a: <b>+" + esc(num) + "</b>" : "<span style='color:var(--bad)'>Número de la administradora no válido o vacío. Revise la línea whatsappAgenda en config.js (valor leído: «" + esc(ESTUDIO.whatsappAgenda || "vacío") + "»).</span>";
+  
+  $("resu").onclick = () => {
+    if (!okNum) { alert("El número de la administradora en config.js no es válido. Use solo dígitos, por ejemplo 04121234567."); return; }
+    location.href = wa(ESTUDIO.whatsappAgenda, agenda());
+  };
+  
+  $("copi").onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(agenda());
+      $("copi").textContent = "¡Copiada!";
+    } catch (e) {
+      prompt("Copie la agenda:", agenda());
+    }
+    setTimeout(() => $("copi").textContent = "Copiar agenda", 2000);
+  };
+  
+  $("lista").onclick = async e => {
+    const b = e.target.closest("button[data-a]");
+    if (!b) return;
+    const c = citas.find(x => x.id === b.dataset.id), a = b.dataset.a, estado = {conf: "confirmada", atend: "atendida", canc: "cancelada"}[a];
+    if (a === "canc" && !confirm("¿Cancelar esta cita y liberar el horario?")) return;
+    const w = F.writeBatch(db);
+    w.update(F.doc(db, "citas", c.id), {estado});
+    if (a === "canc") (c.slotIds || []).forEach(id => w.delete(F.doc(db, "ocupados", id)));
+    await w.commit();
+    cargar();
+  };
+}
 </script></body></html>
